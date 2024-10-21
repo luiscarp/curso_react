@@ -6,6 +6,11 @@ import { Toaster } from "react-hot-toast";
 
 function App() {
   const [data] = useState(db)
+  const [cart, setCart] = useState([])
+
+  const addToCart = (item) => {
+    setCart( prevCart => [...prevCart, item])
+  }
 
   return (
     <>
@@ -19,6 +24,7 @@ function App() {
           {data.map((guitar) => <Guitar
           key={guitar.id}
           guitar = {guitar}
+          addToCart = {addToCart}
           ></Guitar> )}
  
         </div>
