@@ -2,12 +2,14 @@ import { useState } from "react";
 import Guitar from "./components/Guitar";
 import Header from "./components/Header";
 import { db } from "./data/db";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [data] = useState(db)
 
   return (
     <>
+    <Toaster></Toaster>
       <Header></Header>
 
       <main className="container-xl mt-5">

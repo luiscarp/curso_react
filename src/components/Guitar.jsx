@@ -1,8 +1,14 @@
+import toast from "react-hot-toast";
+
 const Guitar = ({guitar}) => {
 
     const {id, name, image, description, price} = guitar
 
-    const handleClick = (guitar) => console.log(`Diste click en la guitarra ${guitar.name}`)
+    const handleClick = (guitar) => {
+        toast.success(`Has agregado ${guitar.name} al carrito!`)
+        console.log(`Has agregado ${guitar.name} al carrito!`)
+        
+    }
   
 
   return (
