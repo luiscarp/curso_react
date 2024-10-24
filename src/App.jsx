@@ -3,14 +3,18 @@ import Guitar from "./components/Guitar";
 import Header from "./components/Header";
 import { db } from "./data/db";
 import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function App() {
   const [data] = useState(db);
   const [cart, setCart] = useState([]);
+  const MAX_ITEMS = 5
+  const MIN_ITEMS = 1
 
   const addToCart = (item) => {
     const itemExists = cart.findIndex((guitar) => guitar.id === item.id);
     if (itemExists >= 0) {
+      if(cart[itemExists].quantity >= MAX_ITEMS) return
       //caso donde existe en el carrito
       const updatedCart = [...cart]
       updatedCart[itemExists].quantity++
@@ -22,11 +26,47 @@ function App() {
     }
   };
 
+  const removeFromCart = (id) =>{
+    setCart(prevCart => prevCart.filter(guitar => guitar.id !== id) 
+  
+  )
+  toast.success("Elemento eliminado con exito")
+  }
+
+  const increaseQuantity = (id) => {
+    const updatedCart = cart.map((item) => {
+      if (item.id === id && item.quantity<MAX_ITEMS) {
+        return {
+          ...item,
+          quantity:  item.quantity +1
+        }
+      } return item
+    }  )
+
+    setCart(updatedCart)
+  }
+
+  const decreaseQuantity = (id) => {
+    const updatedCart = cart.map((item) => {
+      if (item.id === id && item.quantity>MIN_ITEMS) {
+        return {
+          ...item,
+          quantity:  item.quantity -1
+        }
+      } return item
+    }  )
+
+    setCart(updatedCart)
+  }
+
   return (
     <>
       <Toaster></Toaster>
       <Header
       cart = {cart}
+      removeFromCart = {removeFromCart}
+      increaseQuantity= {increaseQuantity}
+      decreaseQuantity= {decreaseQuantity}
       ></Header>
 
       <main className="container-xl mt-5">
@@ -38,6 +78,7 @@ function App() {
               key={guitar.id}
               guitar={guitar}
               addToCart={addToCart}
+              
             ></Guitar>
           ))}
         </div>
