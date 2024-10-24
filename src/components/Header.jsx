@@ -1,4 +1,9 @@
+import { useMemo } from "react";
+
 const Header = ({ cart }) => {
+    const isEmpty = useMemo(() => cart.length === 0, [cart])
+    const cartTotal = useMemo(() => cart.reduce( (total, item) => total + (item.quantity*item.price), 0 ), [cart])
+
   return (
     <div>
       <header className="py-5 header">
@@ -22,7 +27,10 @@ const Header = ({ cart }) => {
                 />
 
                 <div id="carrito" className="bg-white p-3">
-                  <p className="text-center">El carrito esta vacio</p>
+                  
+                  {isEmpty ? (<p className="text-center">El carrito esta vacio</p>)
+                  
+                : (<>
                   <table className="w-100 table">
                     <thead>
                       <tr>
@@ -64,13 +72,18 @@ const Header = ({ cart }) => {
                       ))}
                     </tbody>
                   </table>
+                  
 
                   <p className="text-end">
-                    Total pagar: <span className="fw-bold">$899</span>
+                    Total pagar: <span className="fw-bold">${cartTotal}</span>
                   </p>
+
                   <button className="btn btn-dark w-100 mt-3 p-2">
                     Vaciar Carrito
                   </button>
+                  </>
+
+)}
                 </div>
               </div>
             </nav>
