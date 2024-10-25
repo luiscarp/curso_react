@@ -59,6 +59,10 @@ function App() {
     setCart(updatedCart)
   }
 
+  const clearCart = () => {
+    setCart([])
+  }
+
   return (
     <>
       <Toaster></Toaster>
@@ -67,6 +71,7 @@ function App() {
       removeFromCart = {removeFromCart}
       increaseQuantity= {increaseQuantity}
       decreaseQuantity= {decreaseQuantity}
+      clearCart = {clearCart}
       ></Header>
 
       <main className="container-xl mt-5">
