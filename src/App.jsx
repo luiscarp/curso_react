@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Guitar from "./components/Guitar";
 import Header from "./components/Header";
 import { db } from "./data/db";
@@ -6,10 +6,20 @@ import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 
 function App() {
+
+  const initialCart = () => {
+    const localStorageCart = localStorage.getItem("cart")
+    return localStorageCart  ? JSON.parse(localStorageCart) : []
+  }
   const [data] = useState(db);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(initialCart);
   const MAX_ITEMS = 5
   const MIN_ITEMS = 1
+
+  useEffect( () => {
+    localStorage.setItem("cart", JSON.stringify(cart))
+
+  }, [cart])
 
   const addToCart = (item) => {
     const itemExists = cart.findIndex((guitar) => guitar.id === item.id);
@@ -24,6 +34,7 @@ function App() {
       item.quantity = 1
       setCart( [...cart, item]);
     }
+    
   };
 
   const removeFromCart = (id) =>{
@@ -62,6 +73,8 @@ function App() {
   const clearCart = () => {
     setCart([])
   }
+
+ 
 
   return (
     <>
